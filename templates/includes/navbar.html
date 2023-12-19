@@ -57,7 +57,11 @@
                 </div>
                 <a href="contact.html" class="nav-item nav-link">Contact</a>
             </div>
-            <a href="{% url 'login' %}" class="btn btn-primary py-2 px-4 d-none d-lg-block">Join Us</a>
+            {% if request.user.is_authenticated %}
+            <button class="btn btn-outline-primary py-2 px-4 d-none d-lg-block">{{ request.user.full_name }}</button>
+            {% else %}
+            <a href="{% url 'login' %}" class="btn btn-primary py-2 px-4 d-none d-lg-block">Ishtirok Etish</a>
+            {% endif %}
         </div>
     </nav>
 </div>
