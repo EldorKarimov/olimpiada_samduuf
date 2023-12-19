@@ -81,7 +81,7 @@ form {
 	text-align: center;
 }
 
-input {
+.login_input {
 	background-color: #eee;
 	border: none;
 	padding: 12px 15px;

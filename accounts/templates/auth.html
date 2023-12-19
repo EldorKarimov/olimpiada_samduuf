@@ -1,51 +1,51 @@
 {% load static %}
+{% load widget_tweaks %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Auth</title>
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 <body>
     <h2>Weekly Coding Challenge #1: Sign in/up Form</h2>
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
-		<form action="#">
-			<h1>Create Account</h1>
-			<input type="text" placeholder="F.I.SH" />
-			<input type="text" placeholder="Foydalanuvchi nomi" />
-			<input type="text" placeholder="Telefon raqam" />
-			<select>
-				<option selected>Yo'nalishni tanlang</option>
-				<option value="1">One alsdjf lksjadlfk jaklsdjf lkjsadkl laksjdf lkj</option>
-				<option value="2">Two asdjf lkasjf lkasj flkjas lkdfj as</option>
-				<option value="3">Three alskjdf lkasjdfl k</option>
-			  </select>
-			<input type="password" placeholder="Parol" />
-			<button>Sign Up</button>
+		<form action="#" method="post">
+			{% csrf_token %}
+			<h1>Hisob yaratish</h1>
+			{% render_field register_form.full_name class+="login_input" type="text" placeholder="F.I.SH" %}
+			{% render_field register_form.username class+="login_input" type="text" placeholder="Foydalanuvchi nomi" %}
+			{% render_field register_form.phone class+="login_input" type="text" placeholder="Telefon raqam" %}
+			{% render_field register_form.direction class+="login_input" %}
+			{% render_field register_form.password class+="login_input" type="password" placeholder="Parol" %}
+			
+			<button type="submit">Saqlash</button>
 		</form>
 	</div>
 	<div class="form-container sign-in-container">
 		<form action="#" method="post">
 			{% csrf_token %}
-			<h1>Sign in</h1>
-			<input type="text" placeholder="Foydalanuvchi nomi" />
-			<input type="password" placeholder="Parol" />
+			<h1>Tizimga Kirish</h1>
+			{% render_field login_form.username class+="login_input" type="text" placeholder="Foydalanuvchi nomi" %}
+			{% render_field login_form.password class+="login_input" type="password" placeholder="Parol" %}
+			<!-- <input type="text" placeholder="Foydalanuvchi nomi" />
+			<input type="password" placeholder="Parol" /> -->
 			<a href="#">Forgot your password?</a>
-			<button type="submit">Sign In</button>
+			<button type="submit">Kirish</button>
 		</form>
 	</div>
 	<div class="overlay-container">
 		<div class="overlay">
 			<div class="overlay-panel overlay-left">
-				<h1>Welcome Back!</h1>
-				<p>To keep connected with us please login with your personal info</p>
+				<h1>Qaytganingizdan xursandmiz!</h1>
+				<p>Online Olimpiadaga qatnashish uchun shaxsiy ma'lumotlaringiz bilan tizimga kiring</p>
 				<button class="ghost" id="signIn">Sign In</button>
 			</div>
 			<div class="overlay-panel overlay-right">
-				<h1>Hello, Friend!</h1>
-				<p>Enter your personal details and start journey with us</p>
+				<h1>Assalomu Aleykum</h1>
+				<p>Shaxsiy ma'lumotlaringizni kiriting va biz bilan online olimpiadani boshlang</p>
 				<button class="ghost" id="signUp">Sign Up</button>
 			</div>
 		</div>
