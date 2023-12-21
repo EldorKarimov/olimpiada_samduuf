@@ -33,3 +33,7 @@ class LoginOrRegisterView(View):
             messages.success(request, "Siz muvaffaqqiyatli ro'yhatdan o'tdingiz. Marhamat tizimga kiring")
         else:
             messages.error(request, "Bunday foydalanuvchi avval ro'yhatdan o'tgan")
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')

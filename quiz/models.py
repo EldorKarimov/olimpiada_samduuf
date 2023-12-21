@@ -12,6 +12,7 @@ class BaseModel(models.Model):
 class QuizModel(BaseModel):
     name = models.CharField(max_length=150)
     author = models.CharField(max_length = 120)
+    lang = models.CharField(max_length = 15)
     slug = models.SlugField(max_length=150, unique=True)
     image = models.ImageField(upload_to='media/images')
 

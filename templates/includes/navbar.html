@@ -59,6 +59,7 @@
             </div>
             {% if request.user.is_authenticated %}
             <button class="btn btn-outline-primary py-2 px-4 d-none d-lg-block">{{ request.user.full_name }}</button>
+            <a href="{% url 'logout' %}" class="btn btn-outline-primary py-2 px-4 d-none d-lg-block ms-1">logout</a>
             {% else %}
             <a href="{% url 'login' %}" class="btn btn-primary py-2 px-4 d-none d-lg-block">Ishtirok Etish</a>
             {% endif %}

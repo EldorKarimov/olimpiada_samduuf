@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %} {% endblock %}
+
+{% block content %}
+<!-- Detail Start -->
+<div class="container-fluid py-5">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="mb-5">
+                    <div class="section-title position-relative mb-5">
+                        <h6 class="d-inline-block position-relative text-secondary text-uppercase pb-2">test</h6>
+                        <h1 class="display-4">{{ quiz.name }} </h1>
+                    </div>
+                    <img class="img-fluid rounded w-100 mb-4" src="{{ quiz.image.url }}" alt="Image">
+                    
+                    <!-- <p>Sadipscing labore amet rebum est et justo gubergren. Et eirmod ipsum sit diam ut magna lorem.
+                        Nonumy vero labore lorem sanctus rebum et lorem magna kasd, stet amet magna accusam
+                        consetetur eirmod. Kasd accusam sit ipsum sadipscing et at at sanctus et. Ipsum sit
+                        gubergren dolores et, consetetur justo invidunt at et aliquyam ut et vero clita. Diam sea
+                        sea no sed dolores diam nonumy, gubergren sit stet no diam kasd vero.</p> -->
+                </div>
+
+           </div>
+
+            <div class="col-lg-4 mt-5 mt-lg-0">
+                <div class="bg-primary mb-5 py-3">
+                    <h3 class="text-white py-3 px-4 m-0">Course Features</h3>
+                    <div class="d-flex justify-content-between border-bottom px-4">
+                        <h6 class="text-white my-3">O'qituvchi</h6>
+                        <h6 class="text-white my-3">{{ quiz.author }}</h6>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom px-4">
+                        <h6 class="text-white my-3">Berilgan vaqt</h6>
+                        <h6 class="text-white my-3">30 min</h6>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom px-4">
+                        <h6 class="text-white my-3">Savollar soni</h6>
+                        <h6 class="text-white my-3">30</h6>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom px-4">
+                        <h6 class="text-white my-3">Maksimal bal</h6>
+                        <h6 class="text-white my-3">30</h6>
+                    </div>
+                    <div class="d-flex justify-content-between px-4">
+                        <h6 class="text-white my-3">Til</h6>
+                        <h6 class="text-white my-3">{{ quiz.lang }}</h6>
+                    </div>
+                    <div class="py-3 px-4">
+                        <a class="btn btn-block btn-secondary py-3 px-5" href="{% url 'quiz_page' quiz.slug %}">Boshlash</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Detail End -->
+{% endblock %}

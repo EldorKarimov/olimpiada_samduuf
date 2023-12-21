@@ -115,6 +115,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
+MEDIA_URL = 'media/'
+MEDIA_ROOT = 'media/'
+
 STATIC_URL = 'static/'
 # STATIC_ROOT = 'static'
 STATICFILES_DIRS = [
@@ -126,3 +129,4 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
+LOGIN_URL = 'login'
