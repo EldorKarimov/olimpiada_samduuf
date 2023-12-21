@@ -18,7 +18,7 @@
                 {% for answer in answers %}
                 {% if question.id == answer.question.id %}
                 <div class="form-check ms-3">
-                    <input class="form-check-input" type="radio" name="{{ question.question_name }}" id="{{ answer.answer_name}}" value="{{ question.question_name }}">
+                    <input class="form-check-input" type="radio" name="{{ question.question_name }}" id="{{ answer.answer_name}}" value="{{ answer.is_right }}">
                     <label class="form-check-label" for="{{ answer.answer_name}}">
                         {{ answer.answer_name }}
                     </label>

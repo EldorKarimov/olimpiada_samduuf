@@ -9,9 +9,16 @@
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 <body>
-    <h2>Weekly Coding Challenge #1: Sign in/up Form</h2>
+		
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
+		{% if messages %}
+		{% for mess in messages %}
+		<div class="alert alert-danger" role="alert">
+			{{ mess }}
+		</div>		  
+		{% endfor %}
+		{% endif %}
 		<form action="#" method="post">
 			{% csrf_token %}
 			<h1>Hisob yaratish</h1>

@@ -12,6 +12,7 @@ class Direction(models.Model):
 
 class CustomUser(AbstractUser):
     full_name = models.CharField(max_length = 255)
+    session_id = models.CharField(max_length = 150, null = True, blank = True)
     username = models.CharField(
         max_length=150,
         unique=True,

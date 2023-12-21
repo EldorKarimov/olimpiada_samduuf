@@ -26,13 +26,18 @@ class LoginOrRegisterView(View):
                 return redirect('home')
         else:
             messages.error(request, "Foydalanuvchi nomi yoki parol noto'g'ri. Iltimos tekshirib qayta urinib ko'ring.")
+            return redirect('login')
+            
 
         if register_form.is_valid():
             register_form.save()
-            return redirect('login')
             messages.success(request, "Siz muvaffaqqiyatli ro'yhatdan o'tdingiz. Marhamat tizimga kiring")
+            return redirect('login')
+            
         else:
             messages.error(request, "Bunday foydalanuvchi avval ro'yhatdan o'tgan")
+            return redirect('login')
+            
 
 def logout_view(request):
     logout(request)

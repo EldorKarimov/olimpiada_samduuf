@@ -1,9 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 import random
+from django.http import HttpResponse
+from accounts.models import CustomUser
+from django.contrib import messages
 
 from .models import QuizModel, Question, Answer, Result
+
+def get_session(request):
+    session_id = request.session.session_key
+    if not session_id:
+        session_id.session.create()
+        session_id = request.session.session_key
+    return session_id
 
 class QuizDetailView(LoginRequiredMixin, View):
     def get(self, request, slug):
@@ -16,6 +26,14 @@ class QuizDetailView(LoginRequiredMixin, View):
 class QuizPageView(LoginRequiredMixin, View):
     def get(self, request, slug):
         quiz = QuizModel.objects.get(slug = slug)
+        user = CustomUser.objects.get(username = request.user.username)
+        if not user.session_id:
+            user.session_id = get_session(request)
+            user.save()
+        if get_session(request) != user.session_id:
+            messages.error(request, "Siz boshqa qurilmadan kirishga urindingiz")
+            return redirect('quiz_detail', quiz.slug)
+        
         questions = Question.objects.filter(quiz = quiz)
         questions = random.sample(list(questions), 3)
         answers = Answer.objects.all()
@@ -25,8 +43,9 @@ class QuizPageView(LoginRequiredMixin, View):
             'questions':questions,
             'answers':answers
         }
+        
         return render(request, 'quiz_page.html', context)
-    
+        
     def post(self, request, slug):
         correct = 0
         

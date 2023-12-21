@@ -15,7 +15,7 @@ class QuizModel(BaseModel):
     lang = models.CharField(max_length = 15)
     slug = models.SlugField(max_length=150, unique=True)
     image = models.ImageField(upload_to='media/images')
-
+    
     def __str__(self):
         return self.name
     

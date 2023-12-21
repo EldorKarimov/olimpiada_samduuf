@@ -9,6 +9,14 @@
         <div class="row">
             <div class="col-lg-8">
                 <div class="mb-5">
+                    {% if messages %}
+                    {% for mess in messages %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ mess }}
+                      </div>
+                      
+                    {% endfor %}
+                    {% endif %}
                     <div class="section-title position-relative mb-5">
                         <h6 class="d-inline-block position-relative text-secondary text-uppercase pb-2">test</h6>
                         <h1 class="display-4">{{ quiz.name }} </h1>
@@ -48,7 +56,10 @@
                         <h6 class="text-white my-3">{{ quiz.lang }}</h6>
                     </div>
                     <div class="py-3 px-4">
-                        <a class="btn btn-block btn-secondary py-3 px-5" href="{% url 'quiz_page' quiz.slug %}">Boshlash</a>
+                        <form action="" method="get">
+                            <a class="btn btn-block btn-secondary py-3 px-5" href="{% url 'quiz_page' quiz.slug %}">Boshlash</a>
+                        </form>
+                        
                     </div>
                 </div>
             </div>
