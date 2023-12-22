@@ -3,6 +3,7 @@ from django.views import View
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib import messages
+from django.http import HttpResponse
 
 from .forms import RegisterForm
 
@@ -19,7 +20,12 @@ class LoginOrRegisterView(View):
     def post(self, request):
         login_form = AuthenticationForm(data = request.POST)
         register_form = RegisterForm(data = request.POST)
-        if login_form.is_valid():
+
+        if register_form.is_valid():
+            register_form.save()
+            messages.success(request, "Siz muvaffaqqiyatli ro'yhatdan o'tdingiz. Marhamat tizimga kiring")
+            return redirect('login')
+        elif login_form.is_valid():
             user = login_form.get_user()
             if user is not None:
                 login(request, user)
@@ -29,14 +35,7 @@ class LoginOrRegisterView(View):
             return redirect('login')
             
 
-        if register_form.is_valid():
-            register_form.save()
-            messages.success(request, "Siz muvaffaqqiyatli ro'yhatdan o'tdingiz. Marhamat tizimga kiring")
-            return redirect('login')
-            
-        else:
-            messages.error(request, "Bunday foydalanuvchi avval ro'yhatdan o'tgan")
-            return redirect('login')
+        
             
 
 def logout_view(request):

@@ -5,6 +5,7 @@ import random
 from django.http import HttpResponse
 from accounts.models import CustomUser
 from django.contrib import messages
+from django.utils import timezone
 
 from .models import QuizModel, Question, Answer, Result
 
@@ -27,6 +28,7 @@ class QuizPageView(LoginRequiredMixin, View):
     def get(self, request, slug):
         quiz = QuizModel.objects.get(slug = slug)
         user = CustomUser.objects.get(username = request.user.username)
+        request.session['start_quiz_time'] = timezone.now().isoformat()
         if not user.session_id:
             user.session_id = get_session(request)
             user.save()
