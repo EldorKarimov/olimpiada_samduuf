@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import QuizModel, Question, Answer, Result
+from .models import QuizModel, Question, Answer, Result, QuizUser
 
 @admin.register(QuizModel)
 class QuizModelAdmin(admin.ModelAdmin):
@@ -21,3 +21,5 @@ class QuestionAdmin(admin.ModelAdmin):
 @admin.register(Result)
 class ResultAdmin(admin.ModelAdmin):
     list_display = ['question_count', 'correct_question_count', 'user', 'quiz', 'created']
+
+admin.site.register(QuizUser)

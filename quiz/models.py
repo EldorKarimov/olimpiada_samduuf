@@ -1,6 +1,6 @@
 from django.db import models
 from accounts.models import CustomUser
-
+from django.utils import timezone
 
 class BaseModel(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -15,6 +15,8 @@ class QuizModel(BaseModel):
     lang = models.CharField(max_length = 15)
     slug = models.SlugField(max_length=150, unique=True)
     image = models.ImageField(upload_to='media/images')
+    start_time = models.DateTimeField(null=True, blank=True)
+    end_time = models.DateTimeField(null=True, blank=True)
     
     def __str__(self):
         return self.name
@@ -45,3 +47,14 @@ class Result(BaseModel):
 
     def __str__(self):
         return self.user.full_name if self.user else "Anonymous User"
+
+
+class QuizUser(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    quiz = models.ForeignKey(QuizModel, on_delete=models.CASCADE)
+    start_time = models.DateTimeField(default = timezone.now())
+    end_time = models.DateTimeField(null=True, blank=True)
+    completed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.quiz.title}"

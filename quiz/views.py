@@ -7,7 +7,7 @@ from accounts.models import CustomUser
 from django.contrib import messages
 from django.utils import timezone
 
-from .models import QuizModel, Question, Answer, Result
+from .models import QuizModel, Question, Answer, Result, QuizUser
 
 def get_session(request):
     session_id = request.session.session_key
@@ -28,7 +28,11 @@ class QuizPageView(LoginRequiredMixin, View):
     def get(self, request, slug):
         quiz = QuizModel.objects.get(slug = slug)
         user = CustomUser.objects.get(username = request.user.username)
-        request.session['start_quiz_time'] = timezone.now().isoformat()
+        quiz_user = QuizUser.objects.get_or_create(user=request.user, quiz=quiz)
+        quiz_user.start_time = timezone.now()
+        quiz_user.end_time = quiz_user.start_time + timezone.timedelta(minutes=30)
+        quiz_user.save()
+        
         if not user.session_id:
             user.session_id = get_session(request)
             user.save()
