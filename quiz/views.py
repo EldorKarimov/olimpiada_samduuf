@@ -28,11 +28,11 @@ class QuizPageView(LoginRequiredMixin, View):
     def get(self, request, slug):
         quiz = QuizModel.objects.get(slug = slug)
         user = CustomUser.objects.get(username = request.user.username)
-        quiz_user = QuizUser.objects.get_or_create(user=request.user, quiz=quiz)
+        quiz_user, created = QuizUser.objects.get_or_create(user=request.user, quiz=quiz)
         quiz_user.start_time = timezone.now()
-        quiz_user.end_time = quiz_user.start_time + timezone.timedelta(minutes=30)
+        quiz_user.expiration_time = quiz_user.start_time + timezone.timedelta(minutes=30)
         quiz_user.save()
-        
+
         if not user.session_id:
             user.session_id = get_session(request)
             user.save()
@@ -47,15 +47,20 @@ class QuizPageView(LoginRequiredMixin, View):
         random.shuffle(answers)
         context = {
             'questions':questions,
-            'answers':answers
+            'answers':answers,
+            'quiz_user':quiz_user,
+            'x':30
         }
         
-        return render(request, 'quiz_page.html', context)
+        response = render(request, 'quiz_page.html', context)
+        response.set_cookie('quiz_start_time', timezone.now().isoformat(), max_age=60 * 1)
+        return response
         
     def post(self, request, slug):
         correct = 0
         
         quiz = QuizModel.objects.get(slug = slug)
+        quiz_user = QuizUser.objects.get(user = request.user, quiz = quiz)
         questions = Question.objects.filter(quiz = quiz)
         questions = random.sample(list(questions), 3)
         answers = Answer.objects.all()
@@ -63,7 +68,6 @@ class QuizPageView(LoginRequiredMixin, View):
         random.shuffle(answers)
         
         for question in questions:
-            print(request.POST.get(question.question_name))
             if request.POST.get(question.question_name) == 'True':
                 correct += 1
             quiz = question.quiz
@@ -74,6 +78,7 @@ class QuizPageView(LoginRequiredMixin, View):
             user = request.user,
             quiz = quiz
         )
+        quiz_user.end_time = timezone.now()
         total = correct * 100 / len(questions)
         context = {
             'correct':correct,
@@ -82,3 +87,9 @@ class QuizPageView(LoginRequiredMixin, View):
             'total':round(total, 2)
         }
         return render(request, 'result.html', context)  
+    
+
+# class ResultPageView(LoginRequiredMixin, View):
+#     def get(self, request):
+#         result = Result.objects.get(user = request.user)
+#         return render(request, 'result.html', {'result':result})

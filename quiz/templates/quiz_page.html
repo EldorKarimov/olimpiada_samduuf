@@ -3,12 +3,13 @@
 {% block title %} Olimpiada Test{% endblock %}
 
 {% block content %}
+
 <section>
     <div class="container mt-3">
         <h1>{{ request.path }}</h1>
     </div>
     <div class="container mt-5" style="padding: 20px; border-radius: 5px; background-color: rgb(237, 237, 237);">
-        <form action="" method="post">
+        <form action="{% url 'quiz_page' slug=quiz_user.quiz.slug %}" method="post" id="quizForm">
             {% csrf_token %}
             {% for question in questions %}
             <div>
@@ -18,22 +19,63 @@
                 {% for answer in answers %}
                 {% if question.id == answer.question.id %}
                 <div class="form-check ms-3">
-                    <input class="form-check-input" type="radio" name="{{ question.question_name }}" id="{{ answer.answer_name}}" value="{{ answer.is_right }}">
-                    <label class="form-check-label" for="{{ answer.answer_name}}">
+                    <input class="form-check-input" type="radio" name="{{ question.question_name }}" id="{{ answer.answer_name }}" value="{{ answer.is_right }}">
+                    <label class="form-check-label" for="{{ answer.answer_name }}">
                         {{ answer.answer_name }}
                     </label>
                 </div>
                 {% endif %}
                 {% endfor %}
-                
             </div>
             <hr>
            {% endfor %}
 
+           <div id="timer">Test Tugash vaqti: 30:00</div>
            <button type="submit" class="btn btn-success">Tugatish</button>
         </form>
-       
     </div>
+
+    <script>
+        var countdown;
+        var timerElement = document.getElementById("timer");
+    
+        function updateTimer() {
+            var minutes = Math.floor(countdown / 60);
+            var seconds = countdown % 60;
+            timerElement.innerHTML = "Time Left: " + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+        }
+    
+        function submitFormOnTimeout() {
+            document.getElementById("quizForm").submit();
+        }
+    
+        function startTimer() {
+            var initialStartTime = localStorage.getItem("quiz_start_time");
+            if (!initialStartTime) {
+                // If the start time is not found in localStorage, set it
+                localStorage.setItem("quiz_start_time", new Date().toISOString());
+                initialStartTime = localStorage.getItem("quiz_start_time");
+            }
+    
+            countdown = Math.max(60*{{ x }} - Math.floor((new Date() - new Date(initialStartTime)) / 1000), 0);
+    
+            var timer = setInterval(function () {
+                updateTimer();
+                countdown--;
+    
+                if (countdown < 0) {
+                    clearInterval(timer);
+                    submitFormOnTimeout();
+                }
+            }, 1000);
+        }
+    
+        window.onload = startTimer;
+    </script>
+    
+    
+    
 </section>
+
 
 {% endblock %}

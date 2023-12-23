@@ -54,7 +54,8 @@ class QuizUser(models.Model):
     quiz = models.ForeignKey(QuizModel, on_delete=models.CASCADE)
     start_time = models.DateTimeField(default = timezone.now())
     end_time = models.DateTimeField(null=True, blank=True)
+    expiration_time = models.DateTimeField(null=True, blank=True)
     completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.user.username} - {self.quiz.title}"
+        return f"{self.user.username} - {self.quiz.name}"
