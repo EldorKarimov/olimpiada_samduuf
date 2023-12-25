@@ -6,7 +6,9 @@
 
 <section>
     <div class="container mt-3">
-        <h1>{{ request.path }}</h1>
+        <div id="timer" style="font-weight: 900; font-size: 20px; color: red;">
+           Test tugashiga 30:00 daqiqa qoldi.
+        </div>
     </div>
     <div class="container mt-5" style="padding: 20px; border-radius: 5px; background-color: rgb(237, 237, 237);">
         <form action="{% url 'quiz_page' slug=quiz_user.quiz.slug %}" method="post" id="quizForm">
@@ -30,7 +32,7 @@
             <hr>
            {% endfor %}
 
-           <div id="timer">Test Tugash vaqti: 30:00</div>
+           
            <button type="submit" class="btn btn-success">Tugatish</button>
         </form>
     </div>
@@ -42,7 +44,7 @@
         function updateTimer() {
             var minutes = Math.floor(countdown / 60);
             var seconds = countdown % 60;
-            timerElement.innerHTML = "Time Left: " + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+            timerElement.innerHTML = "Test Tugashiga: " + minutes + ":" + (seconds < 10 ? "0" : "") + seconds + " vaqt qoldi";
         }
     
         function submitFormOnTimeout() {

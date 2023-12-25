@@ -19,8 +19,11 @@ def get_session(request):
 class QuizDetailView(LoginRequiredMixin, View):
     def get(self, request, slug):
         quiz = QuizModel.objects.get(slug = slug)
+        result = Result.objects.filter(user = request.user).exists()
+
         context = {
-            'quiz':quiz
+            'quiz':quiz,
+            'result':result
         }
         return render(request, 'quiz_detail.html', context)
     
@@ -57,6 +60,8 @@ class QuizPageView(LoginRequiredMixin, View):
         return response
         
     def post(self, request, slug):
+        result = Result.objects.filter(user = request.user).exists()
+        
         correct = 0
         
         quiz = QuizModel.objects.get(slug = slug)
@@ -66,6 +71,7 @@ class QuizPageView(LoginRequiredMixin, View):
         answers = Answer.objects.all()
         answers = list(answers)
         random.shuffle(answers)
+        
         
         for question in questions:
             if request.POST.get(question.question_name) == 'True':
@@ -86,10 +92,6 @@ class QuizPageView(LoginRequiredMixin, View):
             'number_of_questions':len(questions),
             'total':round(total, 2)
         }
+        quiz_user.completed = True
+        quiz_user.save()
         return render(request, 'result.html', context)  
-    
-
-# class ResultPageView(LoginRequiredMixin, View):
-#     def get(self, request):
-#         result = Result.objects.get(user = request.user)
-#         return render(request, 'result.html', {'result':result})

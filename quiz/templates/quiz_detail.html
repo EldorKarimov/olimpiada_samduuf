@@ -57,7 +57,13 @@
                     </div>
                     <div class="py-3 px-4">
                         <form action="" method="get">
+                            {% if not result %}
                             <a class="btn btn-block btn-secondary py-3 px-5" href="{% url 'quiz_page' quiz.slug %}">Boshlash</a>
+                            {% else %}
+                            <div class="alert alert-danger">
+                                Siz test topshirgansiz!
+                            </div>
+                            {% endif %}
                         </form>
                         
                     </div>
