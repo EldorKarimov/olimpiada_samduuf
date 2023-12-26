@@ -61,6 +61,8 @@ class QuizPageView(LoginRequiredMixin, View):
         
     def post(self, request, slug):
         result = Result.objects.filter(user = request.user).exists()
+        if result:
+            return HttpResponse("Xatolik! Siz avval test topshirgansiz.")
         
         correct = 0
         

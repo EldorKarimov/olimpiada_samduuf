@@ -1,10 +1,24 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block content %}
 <!-- Header Start -->
 <div class="jumbotron jumbotron-fluid position-relative overlay-bottom" style="margin-bottom: 90px;">
     <div class="container text-center my-5 py-5">
+        {% if messages %}
+        {% for mess in messages %}
+        {% if 'error' in mess.tags %}
+        <div class="alert alert-danger" role="alert">
+            {{ mess }}
+        </div>		  
+        {% elif 'success' in mess.tags %}
+        <div class="alert alert-success" role="alert">
+            {{ mess }}
+        </div>	
+        {% endif %}
+        {% endfor %}
+        {% endif %}
         <h1 class="text-white mt-4 mb-4">
             SamDUUF Iqtidorli talabalarning
             ilmiy-tadqiqot faoliyatini tashkil etish bo'limi
@@ -39,7 +53,7 @@
                     </h5>
                 </div>
                 <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque autem recusandae eligendi, nihil enim expedita, architecto molestias dolores impedit vitae nulla eos. Reiciendis assumenda corrupti nisi suscipit deserunt fuga, cupiditate nesciunt repellat, qui quibusdam explicabo odit et neque rerum obcaecati molestiae quam autem tempore corporis in! Minus enim suscipit corrupti quidem qui rem atque, nisi voluptates molestiae temporibus amet esse ad id voluptas neque, sequi placeat. Obcaecati magnam reiciendis laudantium repellendus illo accusamus sint quos dicta suscipit maxime recusandae, quo earum enim mollitia consequuntur, itaque architecto, praesentium tempora alias. Cum amet voluptatum assumenda consequatur quis dolore, iure animi veritatis ipsum dignissimos deserunt incidunt autem quasi facere? Commodi fugit, cumque qui assumenda esse, deserunt illum animi repudiandae dolorem nesciunt architecto non, itaque hic alias in illo nulla dolor. Harum a velit mollitia nostrum optio impedit sit odit debitis, illum ut hic delectus natus laborum totam assumenda unde praesentium eius atque fugiat quam sapiente ullam possimus error enim! Voluptas vitae vero nam sequi adipisci temporibus, incidunt ab modi beatae sint ullam molestias at quos necessitatibus distinctio illo itaque fugiat rem veritatis numquam, nobis excepturi? Perspiciatis sapiente impedit laudantium, sint fugit hic fuga nihil quod, optio magnam laboriosam assumenda ex nesciunt minus deserunt!
+                    Ushbu tizim Sharof Rashidov nomidagi Samarqand davlat universiteti Urgut filiali talabalarini Xalqaro va Respublika miqyosida o‘tkaziladigan fan olimpiadalari hamda Prezident va nomdor stipendiyalarga mazmunli tayyorlash uchun talabalarni saralab olish maqsadida tayyorlangan.
                 </p>
                 <div class="row pt-3 mx-0">
                     <div class="col-3 px-0">
@@ -50,13 +64,13 @@
                     </div>
                     <div class="col-3 px-0">
                         <div class="bg-primary text-center p-4">
-                            <h1 class="text-white" data-toggle="counter-up">1234</h1>
+                            <h1 class="text-white" data-toggle="counter-up">50</h1>
                             <h6 class="text-uppercase text-white">Test<span class="d-block">Yechganlar</span></h6>
                         </div>
                     </div>
                     <div class="col-3 px-0">
                         <div class="bg-warning text-center p-4">
-                            <h1 class="text-white" data-toggle="counter-up">123</h1>
+                            <h1 class="text-white" data-toggle="counter-up">1000</h1>
                             <h6 class="text-uppercase text-white">Umumiy<span class="d-block">Testlar</span></h6>
                         </div>
                     </div>
@@ -91,7 +105,7 @@
                     3.	Onlayn fan olimpiada test shaklida bo‘lib o‘tadi.
                     4.	Olimpiada ishtirokchilariga qatnashadigan fan yo‘nalishi bo‘yicha 30 tadan test beriladi hamda testni yechish uchun 30 daqiq vaqt beriladi.
                     5.	Olimpiada topshiriqlariga berilgan to‘g‘ri javoblar soniga hamda sarflangan vaqt miqdoriga qarab to‘plagan balllar ketma ketligi bo‘yicha 1,2,3-o‘rinlar elektron tarzda belgilanadi.
-                    6.	Olimpiadada g‘olib bo‘lgan talabalarga quydagi keltirilgan pul mukofotlari bilan moddiy rag‘batlantiriladi
+                    6.	Olimpiadada g‘olib bo‘lgan talabalarga quydagi keltirilgan pul mukofotlari bilan moddiy rag‘batlantiriladi.
                     <br>
                 </p>
                 <div class="d-flex mb-3">
@@ -213,23 +227,29 @@
                     <h1 class="display-4">Bizga Xabar Yuboring</h1>
                 </div>
                 <div class="contact-form">
-                    <form>
+                    <form method="post">
+                        {% csrf_token %}
                         <div class="row">
                             <div class="col-6 form-group">
-                                <input type="text" class="form-control border-top-0 border-right-0 border-left-0 p-0" placeholder="Your Name" required="required">
+                                <!-- <input type="text" class="form-control border-top-0 border-right-0 border-left-0 p-0" placeholder="Your Name" required="required"> -->
+                                {% render_field form.full_name class+="form-control border-top-0 border-right-0 border-left-0 p-0" placeholder="Your Name" required="required" %}
+                                
                             </div>
                             <div class="col-6 form-group">
-                                <input type="email" class="form-control border-top-0 border-right-0 border-left-0 p-0" placeholder="Your Email" required="required">
+                                <!-- <input type="email" class="form-control border-top-0 border-right-0 border-left-0 p-0" placeholder="Your Email" required="required"> -->
+                                {% render_field form.phone type="text" class+="form-control border-top-0 border-right-0 border-left-0 p-0" placeholder="Telefon raqam" required="required" %}
                             </div>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control border-top-0 border-right-0 border-left-0 p-0" placeholder="Subject" required="required">
+                            <!-- <input type="text" class="form-control border-top-0 border-right-0 border-left-0 p-0" placeholder="Subject" required="required"> -->
+                            {% render_field form.subject type="text" class+="form-control border-top-0 border-right-0 border-left-0 p-0" placeholder="Mavzu" required="required" %}
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control border-top-0 border-right-0 border-left-0 p-0" rows="5" placeholder="Message" required="required"></textarea>
+                            <!-- <textarea class="form-control border-top-0 border-right-0 border-left-0 p-0" rows="5" placeholder="Message" required="required"></textarea> -->
+                            {% render_field form.message class+="form-control border-top-0 border-right-0 border-left-0 p-0" rows="5" placeholder="Message" required="required" %}
                         </div>
                         <div>
-                            <button class="btn btn-primary py-3 px-5" type="submit">Send Message</button>
+                            <button class="btn btn-primary py-3 px-5" type="submit">Yuborish</button>
                         </div>
                     </form>
                 </div>
