@@ -25,7 +25,7 @@ class QuizModel(BaseModel):
         verbose_name_plural = "Quizzes"
 
 class Question(BaseModel):
-    question_name = models.CharField(max_length=255)
+    question_name = models.TextField()
     quiz = models.ForeignKey(QuizModel, on_delete=models.CASCADE)
 
     def __str__(self):
