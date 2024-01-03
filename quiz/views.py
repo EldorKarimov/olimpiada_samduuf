@@ -47,7 +47,7 @@ class QuizPageView(LoginRequiredMixin, View):
         if len(questions) >= 30:
             questions = random.sample(list(questions), 30)
         else:
-            return HttpResponse("Xatolik! Test hali to'liq yuklanmagan.")
+            questions = random.sample(list(questions), len(questions))
         answers = Answer.objects.all()
         answers = list(answers)
         random.shuffle(answers)
@@ -72,7 +72,10 @@ class QuizPageView(LoginRequiredMixin, View):
         quiz = QuizModel.objects.get(slug = slug)
         quiz_user = QuizUser.objects.get(user = request.user, quiz = quiz)
         questions = Question.objects.filter(quiz = quiz)
-        questions = random.sample(list(questions), 3)
+        if len(questions) >= 30:
+            questions = random.sample(list(questions), 30)
+        else:
+            questions = random.sample(list(questions), len(questions))
         answers = Answer.objects.all()
         answers = list(answers)
         random.shuffle(answers)
