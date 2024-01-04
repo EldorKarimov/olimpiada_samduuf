@@ -82,7 +82,8 @@ class QuizPageView(LoginRequiredMixin, View):
         
         
         for question in questions:
-            if request.POST.get(question.question_name) == 'True':
+            print(request.POST.get(f"{question.id}-hack"))
+            if request.POST.get(f"{question.id}-hack") == 'True':
                 correct += 1
             quiz = question.quiz
         
