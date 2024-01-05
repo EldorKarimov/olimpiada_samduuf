@@ -8,7 +8,7 @@ from quiz.models import QuizModel
 class HomePageView(View):
     def get(self, request):
         form = ContactForm()
-        quizzes = QuizModel.objects.all()
+        quizzes = QuizModel.objects.filter(is_publish = True)
         context = {
             'quizzes':quizzes,
             'form':form

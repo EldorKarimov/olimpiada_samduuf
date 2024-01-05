@@ -17,6 +17,7 @@ class QuizModel(BaseModel):
     image = models.ImageField(upload_to='media/images')
     start_time = models.DateTimeField(null=True, blank=True)
     end_time = models.DateTimeField(null=True, blank=True)
+    is_publish = models.BooleanField(default = False)
     
     def __str__(self):
         return self.name
