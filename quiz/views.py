@@ -81,11 +81,11 @@ class QuizPageView(LoginRequiredMixin, View):
         random.shuffle(answers)
         
         
-        for question in questions:
-            print(request.POST.get(f"{question.id}-hack"))
-            if request.POST.get(f"{question.id}-hack"):
+        for q in questions:
+            print(request.POST.get(f"{q.id}-hack"))
+            if request.POST.get(f"{q.id}-hack") == 'True':
                 correct += 1
-            quiz = question.quiz
+            quiz = q.quiz
         
         Result.objects.create(
             question_count = len(questions),

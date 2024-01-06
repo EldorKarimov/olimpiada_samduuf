@@ -43,11 +43,13 @@ class Answer(BaseModel):
 class Result(BaseModel):
     question_count = models.PositiveIntegerField()
     correct_question_count = models.PositiveIntegerField()
-    user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)  # null=True ni qo'shing
-    quiz = models.ForeignKey(QuizModel, on_delete=models.SET_NULL, null=True)  # null=True ni qo'shing
+    user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
+    quiz = models.ForeignKey(QuizModel, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return self.user.full_name if self.user else "Anonymous User"
+    
+
 
 
 class QuizUser(models.Model):
@@ -60,3 +62,10 @@ class QuizUser(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.quiz.name}"
+    
+    @property
+    def get_time(self):
+        if self.end_time:
+            return self.end_time - self.start_time
+        else:
+            return self.expiration_time - self.start_time

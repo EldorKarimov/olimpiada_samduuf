@@ -44,7 +44,7 @@
                 <a href="#about_system" class="nav-item nav-link">Olimpiada haqida</a>
                 <a href="#regulations" class="nav-item nav-link">Nizomlar</a>
                 <a href="#tests" class="nav-item nav-link">Testlar</a>
-                <a href="#" class="nav-item nav-link">Natijalar</a>
+                <a href="{% url 'result_list' %}" class="nav-item nav-link">Natijalar</a>
                 <a href="#contact" class="nav-item nav-link">Bog'lanish</a>
             </div>
             {% if request.user.is_authenticated %}
